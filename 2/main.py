@@ -9,7 +9,7 @@ def reducer(asc):
     def wrapper(x, y):
         if x is None or y is None:
             return None
-        return y if 0 < abs(x-y) < 4 and (x < y) == asc else None
+        return y if 0 < abs(x-y) < 4 and (x < y) is asc else None
     return wrapper
 
 def reducer_tolerant(asc, factor):
@@ -23,8 +23,7 @@ def reducer_tolerant(asc, factor):
         elif f > 0:
             f -= 1
             return x
-        else:
-            return None
+        return None
     return wrapper
 
 def sign(n):
