@@ -37,13 +37,10 @@ def sign(n):
 
 def main():
     result = 0
-    valid_lines = []
     for i in read_from_file("test.txt"):
         numbers = list(map(int, i.split()))
-        valid = reduce(reducer(numbers[0] < numbers[1]), numbers)
-        if valid:
+        if reduce(reducer(numbers[0] < numbers[1]), numbers):
             result += 1
-            valid_lines.append(i)
     print(result)
 
     result = 0
