@@ -13,15 +13,15 @@ def reducer(asc):
     return wrapper
 
 def reducer_tolerant(asc, factor):
-    factor = factor
+    f = factor
     def wrapper(x, y):
-        nonlocal factor
+        nonlocal f
         if x is None or y is None:
             return None
         if 0 < abs(x-y) < 4 and (x < y) == asc:
             return y
-        elif factor > 0:
-            factor -= 1
+        elif f > 0:
+            f -= 1
             return x
         else:
             return None
