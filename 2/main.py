@@ -9,20 +9,51 @@ def reducer(asc):
     def wrapper(x, y):
         if x is None or y is None:
             return None
-        x, y = int(x), int(y)
         return y if 0 < abs(x-y) < 4 and (x < y) == asc else None
     return wrapper
+
+def reducer_tolerant(asc, factor):
+    factor = factor
+    def wrapper(x, y):
+        nonlocal factor
+        if x is None or y is None:
+            return None
+        if 0 < abs(x-y) < 4 and (x < y) == asc:
+            return y
+        elif factor > 0:
+            factor -= 1
+            return x
+        else:
+            return None
+    return wrapper
+
+def sign(n):
+    s = 0
+    for i in range(3):
+        if (n[i] < n[i+1]):
+            s += 1
+        else:
+            s -= 1
+    return s > 0
 
 def main():
     result = 0
     valid_lines = []
     for i in read_from_file("test.txt"):
-        numbers = i.split()
-        valid = reduce(reducer(int(numbers[0]) < int(numbers[1])), numbers)
+        numbers = list(map(int, i.split()))
+        valid = reduce(reducer(numbers[0] < numbers[1]), numbers)
         if valid:
             result += 1
             valid_lines.append(i)
     print(result)
+
+    result = 0
+    for i in read_from_file("test.txt"):
+        numbers = list(map(int, i.split()))
+        if any(reduce(reducer_tolerant(sign(numbers[::i]), 1), numbers[::i]) for i in [1, -1]):
+            result += 1
+    print(result)
+
 
 
 main()
